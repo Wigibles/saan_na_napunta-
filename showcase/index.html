@@ -1,0 +1,715 @@
+<title>SaanNaPunta with Chito</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@500;700&display=swap">
+<style>
+/* Layout: an app-store style landing page. Huge headline left, a tilted phone with Chito bursting
+   out of it right, then trio cards, a moving poster strip, the live playground, a fact band,
+   a wall of Chito's lines, his pose book, and one closing call to action. */
+:root {
+  --bg: #F6F8F6;
+  --surface: #FFFFFF;
+  --ink: #0B110E;
+  --muted: #4E5C55;
+  --faint: #829089;
+  --line: #E3E9E5;
+  --green: #0B7A48;
+  --green-deep: #0A3D29;
+  --green-mid: #0F5C3B;
+  --green-soft: #E3F2E9;
+  --blob-a: #DDEFE4;
+  --blob-b: #FBEBC7;
+  --blob-c: #E4E8FB;
+  --sun: #F4B63F;
+  --expense: #E8833A;
+  --transfer: #2F80ED;
+  --over: #C0392B;
+  --pill: #0B110E;
+  --on-pill: #FFFFFF;
+  --shadow: 0 18px 40px rgba(11, 30, 20, 0.10);
+  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-pixel: "Pixelify Sans", ui-monospace, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A120E; --surface: #121D17; --ink: #EEF4F0; --muted: #A8B8AF; --faint: #7D8F86; --line: #213128;
+    --green: #3CC486; --green-deep: #0C4430; --green-mid: #0F5C3B; --green-soft: #16301F;
+    --blob-a: #173526; --blob-b: #3A2F14; --blob-c: #1F2541; --sun: #F4B63F; --expense: #F29A57; --transfer: #5B9CF2;
+    --over: #F07563; --pill: #EEF4F0; --on-pill: #0A120E; --shadow: 0 18px 40px rgba(0, 0, 0, 0.4); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A120E; --surface: #121D17; --ink: #EEF4F0; --muted: #A8B8AF; --faint: #7D8F86; --line: #213128;
+  --green: #3CC486; --green-deep: #0C4430; --green-mid: #0F5C3B; --green-soft: #16301F;
+  --blob-a: #173526; --blob-b: #3A2F14; --blob-c: #1F2541; --sun: #F4B63F; --expense: #F29A57; --transfer: #5B9CF2;
+  --over: #F07563; --pill: #EEF4F0; --on-pill: #0A120E; --shadow: 0 18px 40px rgba(0, 0, 0, 0.4); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+.wrap { max-width: 1160px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; border-radius: 10px; }
+.eyebrow { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
+.pixel { font-family: var(--font-pixel); }
+section { padding-block: 64px; }
+.section-head { text-align: center; max-width: 720px; margin: 0 auto; }
+.section-head h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; margin-top: 10px; }
+.section-head p { margin-top: 14px; color: var(--muted); font-size: 1.05rem; }
+
+/* ---------- nav ---------- */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; gap: 16px;
+  padding-block: 14px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; text-decoration: none; }
+.brand img { width: 38px; height: 38px; }
+.nav-links { display: flex; gap: 22px; margin-left: auto; font-weight: 600; font-size: 0.95rem; color: var(--muted); }
+.nav-links a { text-decoration: none; }
+.nav-links a:hover { color: var(--ink); }
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px;
+  background: var(--pill); color: var(--on-pill); font-weight: 700; text-decoration: none; border: 0; cursor: pointer; white-space: nowrap;
+}
+.sound-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); font-weight: 600; font-size: 0.88rem; cursor: pointer;
+}
+.sound-btn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+.sound-btn[aria-pressed="true"] .dot { background: var(--green); }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 32px; align-items: center; padding-block: 40px 56px; }
+.hero > * { min-width: 0; }
+.hero h1 { font-size: clamp(3rem, 7.4vw, 6rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.035em; margin-top: 14px; }
+.hero h1 .accent { color: var(--green); }
+.hero .lead { margin-top: 22px; font-size: 1.15rem; color: var(--muted); max-width: 44ch; }
+.badges { margin-top: 26px; display: flex; gap: 10px; flex-wrap: wrap; }
+.store {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 18px 6px 12px; border-radius: 14px;
+  background: var(--pill); color: var(--on-pill); text-decoration: none; font-weight: 700; line-height: 1.15;
+}
+.store small { display: block; font-weight: 500; font-size: 0.7rem; opacity: 0.8; }
+.store img { width: 34px; height: 34px; }
+.store.alt { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.proof { margin-top: 26px; display: flex; align-items: center; gap: 12px; }
+.faces { display: flex; }
+.faces img { width: 38px; height: 38px; border-radius: 50%; background: var(--surface); border: 2px solid var(--bg); margin-left: -10px; object-fit: cover; }
+.faces img:first-child { margin-left: 0; }
+.proof p { font-size: 0.95rem; color: var(--muted); }
+.proof b { color: var(--green); }
+
+.hero-art { position: relative; display: flex; justify-content: center; padding-block: 10px 30px; }
+.device {
+  width: min(300px, 62vw); border-radius: 44px; padding: 10px; background: #0E1411;
+  box-shadow: 0 40px 80px rgba(11, 30, 20, 0.28), inset 0 0 0 2px #2A332E; transform: rotate(7deg);
+}
+.device .notch { position: absolute; }
+.device img { display: block; width: 100%; border-radius: 34px; }
+.burst {
+  position: absolute; left: max(-10px, calc(50% - 300px)); bottom: -12px; width: min(290px, 60vw); aspect-ratio: 1;
+  border: 0; background: none; padding: 0; cursor: pointer; transform-origin: 50% 100%;
+  animation: breathe 2.2s ease-in-out infinite alternate;
+}
+.burst img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 20px 22px rgba(0,0,0,0.25)); }
+.hero-bubble {
+  position: absolute; right: 0; top: 4%; max-width: 250px; background: var(--surface); border-radius: 18px 18px 18px 4px;
+  padding: 12px 14px; box-shadow: var(--shadow); border: 1px solid var(--line); z-index: 2;
+}
+.who { font-family: var(--font-pixel); font-weight: 700; color: var(--green); font-size: 0.92rem; }
+.say { font-size: 0.95rem; }
+.tap-hint { position: absolute; left: 50%; bottom: -24px; transform: translateX(-50%); font-size: 0.82rem; color: var(--faint); white-space: nowrap; }
+@keyframes breathe { from { scale: 1; } to { scale: 1.035; } }
+.hop { animation: hop 0.55s cubic-bezier(.3,1.6,.5,1) !important; }
+@keyframes hop {
+  0% { transform: translateY(0) rotate(0); } 25% { transform: translateY(-18px) rotate(-7deg); }
+  55% { transform: translateY(0) rotate(5deg); } 100% { transform: translateY(0) rotate(0); }
+}
+
+/* ---------- trio ---------- */
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card { background: var(--surface); border-radius: 28px; padding: 26px; box-shadow: var(--shadow); }
+.trio .card { display: flex; flex-direction: column; gap: 6px; }
+.blob { position: relative; height: 170px; display: grid; place-items: center; margin-bottom: 10px; }
+.blob::before { content: ""; position: absolute; width: 150px; height: 130px; border-radius: 48% 52% 44% 56% / 55% 45% 55% 45%; background: var(--blob-a); }
+.trio .card:nth-child(2) .blob::before { background: var(--blob-b); border-radius: 56% 44% 52% 48% / 45% 55% 45% 55%; }
+.trio .card:nth-child(3) .blob::before { background: var(--blob-c); }
+.blob img { position: relative; width: 160px; height: 160px; }
+.trio h3 { font-size: 1.35rem; font-weight: 800; }
+.trio p { color: var(--muted); }
+
+/* ---------- poster strip ---------- */
+.strip { overflow: hidden; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-block: 10px; }
+.track { display: flex; gap: 18px; width: max-content; animation: slide 46s linear infinite; padding-inline: 18px; }
+.strip:hover .track, .strip:focus-within .track { animation-play-state: paused; }
+@keyframes slide { to { transform: translateX(-50%); } }
+.poster {
+  width: 250px; height: 440px; border-radius: 28px; padding: 22px 20px 0; overflow: hidden; flex: none; color: #fff;
+  background: linear-gradient(170deg, var(--green-mid), var(--green-deep)); display: flex; flex-direction: column; gap: 6px;
+}
+.poster.light { background: linear-gradient(170deg, #1E8A55, #0E6B41); }
+.poster h3 { font-size: 1.55rem; font-weight: 800; line-height: 1.05; }
+.poster p { font-size: 0.85rem; color: #CDE6D7; }
+.poster .mini { margin-top: auto; border-radius: 26px 26px 0 0; padding: 7px 7px 0; background: #0E1411; transform: translateY(18px); }
+.poster .mini img { display: block; width: 100%; border-radius: 20px 20px 0 0; height: 270px; object-fit: cover; object-position: top; }
+.poster .chip { position: absolute; }
+
+/* ---------- playground ---------- */
+.play { display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; align-items: start; margin-top: 40px; }
+.play > * { min-width: 0; }
+.today { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); }
+.stat .k { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+.stat .v { font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+.stat .v.warn { color: var(--over); }
+.play-notes { margin-top: 16px; color: var(--muted); }
+.play-notes li { margin-top: 6px; }
+.small { font-size: 0.85rem; color: var(--faint); margin-top: 14px; }
+.reset { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0 18px; min-height: 42px; cursor: pointer; font-weight: 600; }
+
+.sheet { background: var(--surface); border-radius: 34px; padding: 22px; box-shadow: var(--shadow); position: relative; overflow: hidden; border: 1px solid var(--line); }
+.sheet .handle { width: 40px; height: 4px; border-radius: 4px; background: var(--line); margin: 0 auto 16px; }
+.sheet h3 { font-family: var(--font-body); font-size: 1.1rem; font-weight: 700; }
+.types { margin-top: 14px; display: flex; gap: 4px; background: var(--bg); border-radius: 999px; padding: 4px; }
+.types button { flex: 1; border: 0; background: none; border-radius: 999px; min-height: 42px; cursor: pointer; font-weight: 600; color: var(--muted); transition: background 0.18s ease, color 0.18s ease; }
+.types button[aria-pressed="true"] { color: #fff; }
+.types button[data-type="expense"][aria-pressed="true"] { background: var(--expense); }
+.types button[data-type="income"][aria-pressed="true"] { background: var(--green); }
+.types button[data-type="transfer"][aria-pressed="true"] { background: var(--transfer); }
+.chito-row { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+.chito-row img { width: 64px; height: 64px; flex: none; transform-origin: 50% 100%; }
+.mini-bubble { flex: 1; min-width: 0; background: var(--green-soft); border-radius: 4px 18px 18px 18px; padding: 10px 12px; }
+.amount-box { margin-top: 16px; border-radius: 24px; padding: 16px 12px; text-align: center; background: color-mix(in srgb, var(--accent-type, var(--expense)) 10%, transparent); transition: background 0.2s ease; }
+.amount-box label { display: block; font-weight: 600; font-size: 0.95rem; color: var(--accent-type, var(--expense)); }
+.amount-line { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; }
+.amount-line .peso { font-family: var(--font-display); font-weight: 800; font-size: 2.2rem; color: var(--accent-type, var(--expense)); }
+#amount { font-family: var(--font-display); font-weight: 800; font-size: 2.8rem; color: var(--ink); width: 6.5ch; max-width: 100%; border: 0; background: none; text-align: left; font-variant-numeric: tabular-nums; padding: 0; }
+#amount::placeholder { color: var(--faint); }
+#amount:focus { outline: none; }
+.amount-line:focus-within { outline: 3px solid var(--sun); outline-offset: 4px; border-radius: 14px; }
+.quick { margin-top: 10px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.quick button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-weight: 600; font-size: 0.85rem; min-height: 36px; }
+.field { margin-top: 14px; }
+.field label { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+.field input { margin-top: 4px; width: 100%; border: 1px solid transparent; background: var(--bg); color: var(--ink); border-radius: 16px; padding: 12px 14px; font: inherit; }
+.field input:focus { outline: none; border-color: var(--green); }
+.save { margin-top: 18px; width: 100%; min-height: 52px; border: 0; border-radius: 16px; background: var(--expense); color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; }
+.save:disabled { background: var(--line); color: var(--faint); cursor: not-allowed; }
+.react { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; align-items: flex-end; gap: 6px; transform: translateY(130%); transition: transform 0.45s cubic-bezier(.3,1.4,.5,1); pointer-events: none; }
+.react.show { transform: translateY(0); pointer-events: auto; }
+.react img { width: 96px; height: 96px; flex: none; }
+.react .mini-bubble { background: var(--surface); box-shadow: 0 10px 26px rgba(0,0,0,0.18); margin-bottom: 26px; border: 1px solid var(--line); }
+
+/* ---------- fact band ---------- */
+.band { background: var(--green-deep); color: #fff; border-radius: 34px; padding: 44px 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; text-align: center; }
+.band .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1; color: var(--sun); font-variant-numeric: tabular-nums; }
+.band .lbl { margin-top: 8px; font-weight: 600; color: #CFE5D8; }
+
+/* ---------- chito's lines wall ---------- */
+.wall { overflow: hidden; margin-top: 34px; display: grid; gap: 16px; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); }
+.row { display: flex; gap: 16px; width: max-content; animation: slide 60s linear infinite; padding-inline: 16px; }
+.row.rev { animation-direction: reverse; animation-duration: 70s; }
+.wall:hover .row { animation-play-state: paused; }
+.quote { width: 300px; flex: none; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 18px; display: flex; gap: 12px; align-items: flex-start; }
+.quote img { width: 54px; height: 54px; flex: none; }
+.quote .ctx { font-size: 0.78rem; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.quote p { margin-top: 4px; font-size: 0.98rem; }
+
+/* ---------- pose book ---------- */
+.poses { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; margin-top: 34px; }
+.pose { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 12px 12px 14px; cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 6px; transition: transform 0.15s ease, border-color 0.15s ease; }
+.pose:hover { transform: translateY(-3px); border-color: var(--green); }
+.pose img { width: 100%; aspect-ratio: 1; object-fit: contain; transform-origin: 50% 100%; }
+.pose b { font-family: var(--font-pixel); font-size: 1rem; color: var(--green); }
+.pose span { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+.pose[aria-pressed="true"] { border-color: var(--green); background: var(--green-soft); }
+.pose[aria-pressed="true"] span { color: var(--ink); font-weight: 600; }
+
+/* ---------- closing ---------- */
+.closing { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; background: var(--surface); border-radius: 34px; padding: 40px; box-shadow: var(--shadow); }
+.closing > * { min-width: 0; }
+.closing h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.closing p { margin-top: 14px; color: var(--muted); max-width: 46ch; }
+.closing .art { display: flex; justify-content: center; }
+.closing .art img { width: min(260px, 60vw); }
+.steps { margin-top: 18px; display: grid; gap: 8px; padding: 0; list-style: none; }
+.steps li { display: flex; gap: 10px; align-items: center; font-weight: 600; }
+.steps li span { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--green-soft); color: var(--green); font-size: 0.85rem; flex: none; }
+footer { padding-block: 34px 48px; color: var(--faint); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-art { margin-top: 10px; }
+  .trio { grid-template-columns: 1fr; }
+  .play { grid-template-columns: 1fr; }
+  .band { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .closing { grid-template-columns: 1fr; padding: 28px; }
+}
+@media (max-width: 480px) {
+  .nav .sound-btn span:last-child { display: none; }
+  .hero-bubble { position: relative; right: auto; top: auto; margin: 0 auto 14px; }
+  .hero-art { flex-direction: column; align-items: center; }
+  .burst { left: -6px; width: 56vw; }
+  .today { grid-template-columns: 1fr 1fr; }
+  #amount { font-size: 2.3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .burst, .hop, .track, .row { animation: none !important; }
+  .strip, .wall { overflow-x: auto; }
+  .react, .pose { transition: none; }
+}
+</style>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="#top"><img src="img/chito_default.webp" alt="" width="38" height="38">SaanNaPunta</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#try">Try Chito</a>
+      <a href="#lines">Chito</a>
+      <a href="#get">Get it</a>
+    </div>
+    <button class="sound-btn" id="soundToggle" type="button" aria-pressed="false"><span class="dot"></span><span id="soundLabel">Sounds off</span></button>
+    <a class="pill" href="#get">Get the preview</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <p class="eyebrow">Budget app made for Filipinos</p>
+      <h1>Saan na punta ang <span class="accent">pera mo?</span></h1>
+      <p class="lead">Log spending in seconds, see what's safe to spend until payday, and get ahead of your bills. Chito the monkey watches every peso and reacts to everything you do.</p>
+      <div class="badges">
+        <a class="store" href="#get"><img src="img/chito_phone.webp" alt=""><span><small>Private preview for</small>Android</span></a>
+        <a class="store alt" href="#try"><img src="img/chito_waving.webp" alt=""><span><small>Right here, no install</small>Try Chito</span></a>
+      </div>
+      <div class="proof">
+        <div class="faces" aria-hidden="true">
+          <img src="img/chito_hearteyes.webp" alt=""><img src="img/chito_counting.webp" alt=""><img src="img/chito_piggy.webp" alt=""><img src="img/chito_laptop.webp" alt=""><img src="img/chito_confetti.webp" alt="">
+        </div>
+        <p><b>21 poses</b>, and an opinion on every peso.</p>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="hero-bubble" aria-live="polite"><div class="who">Chito</div><div class="say" id="heroSay">Kumusta. Tap me for a money tip.</div></div>
+      <div class="device"><img src="img/screen_home.webp" alt="SaanNaPunta home screen: available to spend, left today, and quick actions" width="280" height="560"></div>
+      <button class="burst" id="heroChito" type="button" aria-label="Tap Chito for a tip">
+        <img id="heroImg" src="img/chito_cheer.webp" alt="Chito cheering" width="290" height="290">
+      </button>
+      <span class="tap-hint" id="heroHint">Tap Chito. Or leave him alone and watch.</span>
+    </div>
+  </header>
+
+  <section id="features" aria-labelledby="featTitle">
+    <div class="section-head">
+      <p class="eyebrow">Why SaanNaPunta</p>
+      <h2 id="featTitle">Your sahod, paced day by day.</h2>
+    </div>
+    <div class="trio" style="margin-top: 36px;">
+      <div class="card"><div class="blob"><img src="img/chito_detective.webp" alt=""></div><h3>See where it went</h3><p>Log spending in a few taps, or let Chito read your GCash, Maya and bank texts for you.</p></div>
+      <div class="card"><div class="blob"><img src="img/chito_counting.webp" alt=""></div><h3>Know what's safe today</h3><p>Your budget and wallets, minus bills due before payday, split across the days left.</p></div>
+      <div class="card"><div class="blob"><img src="img/chito_piggy.webp" alt=""></div><h3>Hit your ipon goals</h3><p>Set money aside for a goal, plan for bills and dues, and watch the progress fill.</p></div>
+    </div>
+  </section>
+
+  <div class="strip" aria-label="App screens" tabindex="0">
+    <div class="track" id="track"></div>
+  </div>
+
+  <section id="try" aria-labelledby="tryTitle">
+    <div class="section-head">
+      <p class="eyebrow">Try it here</p>
+      <h2 id="tryTitle">Log a spend. Watch Chito react.</h2>
+      <p>This is the app's add-transaction sheet. Chito reads the amount as you type, with the same rules the app uses.</p>
+    </div>
+    <div class="play">
+      <div>
+        <div class="today" aria-live="polite">
+          <div class="stat"><div class="k">Left today</div><div class="v" id="statLeft">₱1,337</div></div>
+          <div class="stat"><div class="k">Spent today</div><div class="v" id="statSpent">₱0</div></div>
+          <div class="stat"><div class="k">Balance</div><div class="v" id="statBalance">₱26,211</div></div>
+        </div>
+        <ul class="play-notes">
+          <li>Spend less than today's safe amount and Chito pays with a smile.</li>
+          <li>Go past it and he runs, money flying out of his wallet.</li>
+          <li>Push the cycle over budget and you get the facepalm.</li>
+          <li>Add income and the heart eyes come out.</li>
+        </ul>
+        <p class="small">Example numbers: ₱15,000 cycle budget, 11 days to payday. Nothing you type leaves this page.</p>
+        <button class="reset" id="resetDemo" type="button">Start over</button>
+      </div>
+
+      <div class="sheet" id="sheet">
+        <div class="handle"></div>
+        <h3>Add transaction</h3>
+        <div class="types" role="group" aria-label="Transaction type">
+          <button type="button" data-type="expense" aria-pressed="true">Expense</button>
+          <button type="button" data-type="income" aria-pressed="false">Income</button>
+          <button type="button" data-type="transfer" aria-pressed="false">Transfer</button>
+        </div>
+        <div class="chito-row">
+          <img id="sheetChito" src="img/chito_thinking.webp" alt="Chito thinking" width="64" height="64">
+          <div class="mini-bubble" aria-live="polite"><div class="who">Chito</div><div class="say" id="sheetSay">Magkano? Enter the amount first.</div></div>
+        </div>
+        <div class="amount-box" id="amountBox">
+          <label for="amount" id="amountLabel">How much did you spend?</label>
+          <div class="amount-line"><span class="peso">₱</span><input id="amount" inputmode="decimal" autocomplete="off" placeholder="0"></div>
+          <div class="quick" aria-label="Quick amounts">
+            <button type="button" data-amt="89">₱89 kape</button>
+            <button type="button" data-amt="289">₱289 Jollibee</button>
+            <button type="button" data-amt="2500">₱2,500 Meralco</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="txTitle" id="titleLabel">What did you spend on?</label>
+          <input id="txTitle" autocomplete="off" placeholder="e.g. Jollibee, Meralco, Grab, Puregold">
+        </div>
+        <button class="save" id="save" type="button" disabled>Save transaction</button>
+        <div class="react" id="react" role="status">
+          <img id="reactImg" src="img/chito_paying.webp" alt="" width="96" height="96">
+          <div class="mini-bubble"><div class="who">Chito</div><div class="say" id="reactSay"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-label="SaanNaPunta in numbers">
+    <div class="band">
+      <div><div class="num">24</div><div class="lbl">banks and e-wallets it recognizes</div></div>
+      <div><div class="num">21</div><div class="lbl">Chito poses</div></div>
+      <div><div class="num">11</div><div class="lbl">soft UI sounds</div></div>
+      <div><div class="num">0</div><div class="lbl">accounts to sign up for</div></div>
+    </div>
+  </section>
+
+  <section id="lines" aria-labelledby="linesTitle">
+    <div class="section-head">
+      <p class="eyebrow">What Chito says</p>
+      <h2 id="linesTitle">He has something to say about every peso.</h2>
+      <p>Real lines from the app. Chito talks plainly, in English with a little Taglish, and never lectures.</p>
+    </div>
+    <div class="wall" aria-label="Chito's lines">
+      <div class="row" id="rowA"></div>
+      <div class="row rev" id="rowB"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="posesTitle">
+    <div class="section-head">
+      <p class="eyebrow">Chito's pose book</p>
+      <h2 id="posesTitle">A pose for every money mood.</h2>
+      <p>Tap one to see what he'd say.</p>
+    </div>
+    <div class="poses" id="poses"></div>
+  </section>
+
+  <section id="get" aria-labelledby="getTitle">
+    <div class="closing">
+      <div>
+        <p class="eyebrow">Private preview</p>
+        <h2 id="getTitle">Start tracking with Chito.</h2>
+        <p>SaanNaPunta is in a private preview for friends. Your budget lives on your phone, and there's no account to make.</p>
+        <ol class="steps">
+          <li><span>1</span>Ask whoever shared this page for the install file.</li>
+          <li><span>2</span>Install it on an Android phone (8.0 or newer).</li>
+          <li><span>3</span>Tell Chito when you get paid. He handles the rest.</li>
+        </ol>
+      </div>
+      <div class="art"><img src="img/chito_confetti.webp" alt="Chito celebrating with confetti" width="260" height="260"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>SaanNaPunta · private preview</span>
+    <span>Bank and e-wallet names and logos in the screenshots belong to their owners. SaanNaPunta is not affiliated with them.</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const img = (pose) => `img/chito_${pose}.webp`;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const peso = (n) => '₱' + Math.round(n).toLocaleString('en-US');
+  const setPose = (el, pose, alt) => { el.src = img(pose); el.alt = alt || ''; };
+  const hop = (el) => {
+    if (reduceMotion || !el) return;
+    el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop');
+    el.addEventListener('animationend', () => el.classList.remove('hop'), { once: true });
+  };
+
+  // ---------- sounds: off until the viewer turns them on ----------
+  let soundOn = false;
+  const sounds = {};
+  ['tap', 'select', 'success', 'granted', 'complete'].forEach((n) => { sounds[n] = new Audio(`sfx/sfx_${n}.wav`); sounds[n].volume = 0.5; });
+  const play = (n) => { if (!soundOn || !sounds[n]) return; try { sounds[n].currentTime = 0; sounds[n].play().catch(() => {}); } catch (e) {} };
+  const toggle = document.getElementById('soundToggle');
+  toggle.addEventListener('click', () => {
+    soundOn = !soundOn;
+    toggle.setAttribute('aria-pressed', String(soundOn));
+    document.getElementById('soundLabel').textContent = soundOn ? 'Sounds on' : 'Sounds off';
+    play('granted');
+  });
+
+  // ---------- poster strip ----------
+  const posters = [
+    ['home', 'Know what\'s safe today', 'Left today and days to payday, front and centre.', false],
+    ['add', 'Log it in seconds', 'Big amount, one tap per type. Chito reads along.', true],
+    ['react', 'Chito reacts', 'Every save gets a pose and a plain-spoken line.', false],
+    ['wallet', 'All your wallets', 'GCash, Maya, banks and cash in one net worth.', true],
+    ['plan', 'Budget by sahod', 'Cycles that follow your 15th and 30th, or your baon.', false],
+    ['history', 'Every peso, by day', 'Search, filter, or switch to the calendar.', true]
+  ];
+  const track = document.getElementById('track');
+  const posterHtml = posters.map(([shot, title, sub, light]) =>
+    `<div class="poster${light ? ' light' : ''}"><h3>${title}</h3><p>${sub}</p><div class="mini"><img src="img/screen_${shot}.webp" alt="" loading="lazy"></div></div>`).join('');
+  // Twice over so the loop is seamless; the copy is hidden from screen readers
+  track.innerHTML = posterHtml + `<div style="display:contents" aria-hidden="true">${posterHtml}</div>`;
+
+  // ---------- hero Chito ----------
+  const tips = [
+    ['pointing', 'Moving money between your own accounts is a transfer, not spending.'],
+    ['counting', 'Bills due before payday are set aside from your safe amount per day.'],
+    ['piggy', 'Ipon tip: put a little into a savings goal right after sahod.'],
+    ['detective', 'Tap a transaction to fix its category if I guessed wrong.'],
+    ['phone', 'Turn on message reading and I\'ll log GCash and bank texts for you.'],
+    ['laptop', 'Back up your data now and then. It only lives on your phone.'],
+    ['thumbsup', '₱1,337 left for today, 11 days until Nov 13.']
+  ];
+  const idles = [
+    ['counting', 'Binibilang ko lang ang ipon mo...'],
+    ['phone', 'Checking for new GCash and bank texts...'],
+    ['laptop', 'Updating your budget sheet...'],
+    ['piggy', 'Feeding the piggy bank. Ipon is ipon.']
+  ];
+  const heroBtn = document.getElementById('heroChito');
+  const heroImg = document.getElementById('heroImg');
+  const heroSay = document.getElementById('heroSay');
+  const heroHint = document.getElementById('heroHint');
+  let tipIndex = 0, asleep = false, idleTimer, sleepTimer, idleBack;
+  const sayHero = (pose, text) => { setPose(heroImg, pose, 'Chito'); heroSay.textContent = text; hop(heroBtn); };
+  const scheduleIdle = () => {
+    clearTimeout(idleTimer); clearTimeout(sleepTimer); clearTimeout(idleBack);
+    idleTimer = setTimeout(function doIdle() {
+      if (asleep) return;
+      const [pose, text] = idles[Math.floor(Math.random() * idles.length)];
+      sayHero(pose, text);
+      idleBack = setTimeout(() => { if (!asleep) sayHero('cheer', 'Kumusta. Tap me for a money tip.'); }, 5000);
+      idleTimer = setTimeout(doIdle, 18000);
+    }, 14000);
+    sleepTimer = setTimeout(() => {
+      asleep = true; clearTimeout(idleTimer); clearTimeout(idleBack);
+      setPose(heroImg, 'sleeping', 'Chito sleeping on his coin sack');
+      heroSay.textContent = 'Zzz... tap me if you need me.';
+      heroHint.textContent = 'He fell asleep. Tap to wake him.';
+    }, 45000);
+  };
+  heroBtn.addEventListener('click', () => {
+    if (asleep) {
+      asleep = false; play('select');
+      sayHero('waving', 'Gising na ako. What do you need?');
+      heroHint.textContent = 'Tap again for a tip.';
+    } else {
+      play('tap');
+      const [pose, text] = tips[tipIndex++ % tips.length];
+      sayHero(pose, text);
+    }
+    scheduleIdle();
+  });
+  ['pointerdown', 'keydown'].forEach((ev) => window.addEventListener(ev, () => { if (!asleep) scheduleIdle(); }, { passive: true }));
+  scheduleIdle();
+
+  // ---------- playground ----------
+  const DAYS_LEFT = 11, BUDGET = 15000;
+  const start = { balance: 26211, cycleSpent: 289, spentToday: 0, allowance: 1337 };
+  let s = { ...start };
+  let type = 'expense';
+  const amountEl = document.getElementById('amount');
+  const titleEl = document.getElementById('txTitle');
+  const saveBtn = document.getElementById('save');
+  const sheetChito = document.getElementById('sheetChito');
+  const sheetSay = document.getElementById('sheetSay');
+  const sheetEl = document.getElementById('sheet');
+  const leftToday = () => Math.max(0, s.allowance - s.spentToday);
+  const typeColor = { expense: 'var(--expense)', income: 'var(--green)', transfer: 'var(--transfer)' };
+  const labels = {
+    expense: ['How much did you spend?', 'What did you spend on?', 'e.g. Jollibee, Meralco, Grab, Puregold'],
+    income: ['How much came in?', 'Income source / Description', 'e.g. Monthly salary, Client payout, Weekly baon'],
+    transfer: ['How much are you moving?', 'Transfer description', 'e.g. Cash in to GCash, ATM withdrawal']
+  };
+  const parseAmount = () => { const n = parseFloat(amountEl.value.replace(/,/g, '')); return Number.isFinite(n) && n > 0 ? n : 0; };
+
+  // Same rules as ChitoLines.addTransaction in the app
+  const liveLine = (amt) => {
+    if (amt <= 0) {
+      return { expense: ['thinking', 'Magkano? Enter the amount first.'], income: ['rich', 'Money in. How much did you get?'],
+               transfer: ['pointing', 'Moving money between your accounts doesn\'t count as spending.'] }[type];
+    }
+    if (type === 'income') return ['hearteyes', `${peso(amt)} in. I'll add it to your balance.`];
+    if (type === 'transfer') return ['thumbsup', `Moving ${peso(amt)}. Your total stays the same.`];
+    const left = leftToday();
+    if (left <= 0) return ['broke', 'Today\'s safe amount is used up. This comes out of the next days.'];
+    if (amt > left) return ['running', `That's ${peso(amt - left)} over what's safe for today.`];
+    return ['paying', `That leaves ${peso(left - amt)} for today.`];
+  };
+  // Same rules as ChitoLines.saved in the app
+  const savedLine = (amt) => {
+    if (type === 'income') return ['hearteyes', `${peso(amt)} in. Don't forget a little for ipon.`];
+    if (type === 'transfer') return ['thumbsup', `Moved ${peso(amt)}. Your total stays the same.`];
+    const after = s.cycleSpent + amt;
+    if (after > BUDGET && s.cycleSpent <= BUDGET) return ['facepalm', `Ay. That puts you ${peso(after - BUDGET)} over this cycle's budget.`];
+    if (amt > leftToday()) return ['running', `${peso(amt)} logged. That's past today's safe amount.`];
+    return ['paying', `${peso(amt)} logged. ${peso(leftToday() - amt)} left for today.`];
+  };
+  let lastPose = '';
+  const refreshSheet = () => {
+    const [pose, text] = liveLine(parseAmount());
+    if (pose !== lastPose) { hop(sheetChito); lastPose = pose; }
+    setPose(sheetChito, pose, 'Chito');
+    sheetSay.textContent = text;
+    saveBtn.disabled = parseAmount() <= 0;
+  };
+  const renderStats = () => {
+    const left = document.getElementById('statLeft');
+    left.textContent = peso(leftToday());
+    left.classList.toggle('warn', leftToday() <= 0);
+    document.getElementById('statSpent').textContent = peso(s.spentToday);
+    document.getElementById('statBalance').textContent = peso(s.balance);
+  };
+  const sizeAmount = () => { amountEl.style.width = amountEl.value ? Math.max(2, amountEl.value.length + 0.5) + 'ch' : ''; };
+  amountEl.addEventListener('input', () => {
+    const raw = amountEl.value.replace(/[^\d.]/g, '');
+    const parts = raw.split('.');
+    const whole = parts[0].replace(/^0+(?=\d)/, '').slice(0, 9);
+    const dec = parts.length > 1 ? '.' + parts.slice(1).join('').slice(0, 2) : '';
+    amountEl.value = (whole ? Number(whole).toLocaleString('en-US') : (dec ? '0' : '')) + dec;
+    sizeAmount();
+    refreshSheet();
+  });
+  document.querySelectorAll('.types button').forEach((b) => b.addEventListener('click', () => {
+    type = b.dataset.type;
+    document.querySelectorAll('.types button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    sheetEl.style.setProperty('--accent-type', typeColor[type]);
+    const [amtLabel, titleLabel, ph] = labels[type];
+    document.getElementById('amountLabel').textContent = amtLabel;
+    document.getElementById('titleLabel').textContent = titleLabel;
+    titleEl.placeholder = ph;
+    saveBtn.style.background = typeColor[type];
+    play('select');
+    refreshSheet();
+  }));
+  document.querySelectorAll('.quick button').forEach((b) => b.addEventListener('click', () => {
+    if (type !== 'expense') document.querySelector('.types button[data-type="expense"]').click();
+    amountEl.value = Number(b.dataset.amt).toLocaleString('en-US');
+    sizeAmount();
+    titleEl.value = b.textContent.replace(/^₱[\d,]+\s*/, '').replace(/^\w/, (c) => c.toUpperCase());
+    play('tap');
+    refreshSheet();
+  }));
+  const reactEl = document.getElementById('react');
+  let reactTimer;
+  saveBtn.addEventListener('click', () => {
+    const amt = parseAmount();
+    if (amt <= 0) return;
+    const [pose, text] = savedLine(amt);
+    if (type === 'expense') { s.spentToday += amt; s.cycleSpent += amt; s.balance -= amt; }
+    if (type === 'income') {
+      s.balance += amt;
+      // Income recomputes today's safe amount, like the app does
+      s.allowance = Math.floor(Math.max(0, Math.min(BUDGET - s.cycleSpent, s.balance)) / DAYS_LEFT) + s.spentToday;
+    }
+    renderStats();
+    play(type === 'income' ? 'complete' : 'success');
+    setPose(document.getElementById('reactImg'), pose, 'Chito');
+    document.getElementById('reactSay').textContent = text;
+    reactEl.classList.add('show');
+    hop(document.getElementById('reactImg'));
+    clearTimeout(reactTimer);
+    reactTimer = setTimeout(() => reactEl.classList.remove('show'), 3200);
+    amountEl.value = ''; titleEl.value = ''; sizeAmount();
+    refreshSheet();
+  });
+  reactEl.addEventListener('click', () => reactEl.classList.remove('show'));
+  document.getElementById('resetDemo').addEventListener('click', () => {
+    s = { ...start }; renderStats();
+    amountEl.value = ''; titleEl.value = ''; sizeAmount();
+    reactEl.classList.remove('show');
+    play('select'); refreshSheet();
+  });
+
+  // ---------- wall of Chito's lines ----------
+  const lines = [
+    ['waving', 'Morning, with ₱1,337 safe', 'Magandang umaga. ₱1,337 is safe to spend today.'],
+    ['paying', 'After a ₱289 lunch', '₱289 logged. ₱1,048 left for today.'],
+    ['running', 'After a big spend', '₱2,500 logged. That\'s past today\'s safe amount.'],
+    ['hearteyes', 'Sahod day', '₱25,000 in. Don\'t forget a little for ipon.'],
+    ['facepalm', 'Budget just went over', 'Ay. That puts you ₱420 over this cycle\'s budget.'],
+    ['confused', 'Category almost used up', 'Food & Dining is almost used up, ₱480 left.'],
+    ['sleeping', 'Past 10 PM', 'Spent ₱289 today. Pahinga na, see you tomorrow.'],
+    ['confetti', 'Goal reached', 'Emergency Fund is fully funded. Ang galing ng ipon mo.'],
+    ['counting', 'On the Wallet tab', 'Net worth ₱26,211 across 3 accounts. Counted it twice.'],
+    ['laptop', 'On the Plan tab', 'Every category is within its limit. I\'m keeping the sheet updated.'],
+    ['detective', 'Nothing matched a search', 'Chito looked everywhere. No matching transactions.'],
+    ['piggy', 'A goal deposit', '₱1,000 into Emergency Fund.'],
+    ['pointing', 'A tip', 'Moving money between your own accounts is a transfer, not spending.'],
+    ['broke', 'Today\'s amount used up', 'Today\'s safe amount is used up. Anything more comes out of the next days.']
+  ];
+  const quoteHtml = (list) => list.map(([pose, ctx, text]) =>
+    `<div class="quote"><img src="${img(pose)}" alt="" loading="lazy"><div><div class="ctx">${ctx}</div><p>“${text}”</p></div></div>`).join('');
+  const half = Math.ceil(lines.length / 2);
+  [['rowA', lines.slice(0, half)], ['rowB', lines.slice(half)]].forEach(([id, list]) => {
+    const html = quoteHtml(list);
+    document.getElementById(id).innerHTML = html + `<div style="display:contents" aria-hidden="true">${html}</div>`;
+  });
+
+  // ---------- pose book ----------
+  const poses = [
+    ['waving', 'Waving', 'Mornings, first launch, and when you wake him.', 'Magandang umaga. Tara, let\'s check your money.'],
+    ['thinking', 'Thinking', 'Waiting for an amount.', 'Magkano? Enter the amount first.'],
+    ['paying', 'Paying', 'A spend within today\'s safe amount, or a bill paid.', '₱289 logged. ₱1,048 left for today.'],
+    ['running', 'Running', 'A spend past today\'s safe amount.', 'That\'s ₱1,163 over what\'s safe for today.'],
+    ['facepalm', 'Facepalm', 'The cycle budget just went over.', 'Ay. That puts you ₱420 over this cycle\'s budget.'],
+    ['hearteyes', 'Heart eyes', 'Income comes in.', '₱25,000 in. Don\'t forget a little for ipon.'],
+    ['broke', 'Broke', 'Today\'s safe amount is used up.', 'Today\'s safe amount is used up.'],
+    ['confused', 'Worried', 'A category is almost used up.', 'Food & Dining is almost used up, ₱480 left.'],
+    ['rich', 'Rich', 'Nothing spent yet today.', 'No spending yet today. You have ₱1,337 safe to spend.'],
+    ['counting', 'Counting', 'Wallet tab, and idle time.', 'Net worth ₱26,211 across 3 accounts. Counted it twice.'],
+    ['laptop', 'Laptop', 'Plan tab, keeping your budget sheet.', 'Every category is within its limit.'],
+    ['detective', 'Detective', 'History tab and empty searches.', 'Spent ₱289 today. Tap any row to fix it.'],
+    ['phone', 'Phone', 'Settings, and checking your texts.', 'Checking for new GCash and bank texts...'],
+    ['piggy', 'Piggy bank', 'Savings goals and deposits.', '₱1,000 into Emergency Fund.'],
+    ['confetti', 'Confetti', 'A goal reached, or a fresh cycle.', 'Emergency Fund is fully funded.'],
+    ['pointing', 'Pointing', 'Tips, transfers and removed entries.', 'Removed. Your balance is back to what it was.'],
+    ['thumbsup', 'Thumbs up', 'You\'re on track.', '₱1,048 left for today, 11 days until Nov 13.'],
+    ['sleeping', 'Sleeping', 'Late at night, or a minute alone.', 'Zzz... tap me if you need me.']
+  ];
+  const posesEl = document.getElementById('poses');
+  poses.forEach(([pose, name, when, line]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pose'; b.setAttribute('aria-pressed', 'false'); b.dataset.when = when;
+    b.innerHTML = `<img src="${img(pose)}" alt="" loading="lazy" width="140" height="140"><b>${name}</b><span>${when}</span>`;
+    const span = b.querySelector('span');
+    b.addEventListener('click', () => {
+      const showing = b.getAttribute('aria-pressed') === 'true';
+      posesEl.querySelectorAll('.pose[aria-pressed="true"]').forEach((o) => { o.setAttribute('aria-pressed', 'false'); o.querySelector('span').textContent = o.dataset.when; });
+      if (!showing) { b.setAttribute('aria-pressed', 'true'); span.textContent = `“${line}”`; play('tap'); hop(b.querySelector('img')); }
+    });
+    posesEl.appendChild(b);
+  });
+
+  renderStats();
+  refreshSheet();
+})();
+</script>
